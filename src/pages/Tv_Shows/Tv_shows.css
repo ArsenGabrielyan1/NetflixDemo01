@@ -1,0 +1,63 @@
+.Tv_Shows {
+    width: 100%;
+    height: 100vh; 
+    color: white;
+    position: absolute;
+  }
+
+.Tv_Shows h1{
+   margin-left: 160px;
+   margin-top: 80px;
+   font-size: 20px;
+   font-weight: 500;
+}
+.block div{
+   display: grid;
+   grid-template-columns: auto auto auto ;
+   margin-left: 46px;
+}
+
+.block h2{
+  display: none;
+}
+
+.block {
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 20px; 
+    padding: 20px;
+    margin-top: -50px;
+}
+ .block p{
+  color:red;
+}
+
+  @media (max-width: 1220px) {
+    .block div{
+        display: grid;
+        grid-template-columns: auto auto ;
+    }
+  }
+  
+  @media (max-width:865px) {
+    .block div{
+        display: grid;
+        grid-template-columns: auto;
+        margin-left: 60px;
+    }
+  }
+  @media (max-width:800px) {
+    .block div{
+        margin-top: 30px;
+    }
+  } 
+  @media (max-width:640px) {
+    .block div{
+        margin-left: 20px;
+    }
+  }
+  @media (max-width:465px) {
+    .block div{
+        margin-left: 13px;
+    }
+  }

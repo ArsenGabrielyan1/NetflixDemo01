@@ -1,0 +1,112 @@
+  .hero{
+    position: relative;
+   }
+
+   .banner-img{
+    width: 100%;
+    mask-image: linear-gradient(to right,transparent,black 75%);
+ }
+
+ .hero-capiton{
+    position: absolute;
+    width: 100%;
+    padding-left: 6%;
+    bottom:-76px;
+ }
+   .capiton-img{
+    width: 95%;
+    max-width: 500px;
+    margin-bottom: 40px;
+   }
+  
+ .hero-capiton p{
+    max-width: 700px;
+    font-size: 17px;
+    margin-bottom: 50px; 
+    
+}
+
+ .hero-btns{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 100px;
+  }
+  .hero-btns a{
+    text-decoration: none;
+  }
+
+.hero-btns .btn img{
+    width: 25px;
+}
+
+.hero-btns .btn {
+    border: 0;
+    outline: 0;
+    padding: 8px 20px ;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.hero-btns .btn.dark-btn{
+    color: #fff;
+    background: #6d6d6eb3;
+}
+.hero-btns .btn:hover{
+    background: #ffffffbf;
+}
+.hero-btns .btn.btn.dark-btn:hover{
+    background: #6d6d6e66;
+}
+.more-cards{
+    padding-left: 6%;
+}
+
+@media (max-width:1024px) {
+   .hero-btns{
+     margin-bottom: 30px;
+    }
+}
+
+@media (max-width:800px) {
+   .capiton-img{
+      max-width: 400px;
+      width: 50%;
+      bottom: 50px;
+    }
+
+    .hero-capiton p{
+        margin-top: -30px;
+       font-size: 14px;
+      }
+    .btn img{
+        width: 20px;
+    }
+    .more-cards{
+        margin-top: 70px;
+        padding-left: 4%;
+        opacity: 94%;
+    }
+}
+@media (max-width:611px) {
+    .hero-capiton{
+        display: none;
+    }
+}
+
+@media (max-width:500px) {
+   
+  .hero-btns  .btn img{
+        width: 15px;
+    }
+    .btn{
+        padding: 4px 10px;
+        gap: 5px;
+        font-size: 10px;
+    }
+}
