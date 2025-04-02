@@ -112,35 +112,53 @@
     }
 }
 
-
-
-
-.navbar:focus-within {
-  transition: all 0.3s ease;
-}
-
- .hero-btns .btn.focused,
-.hero-btns .btn.dark-btn.focused,
 .hero-btns .btn:focus,
-.hero-btns .btn.dark-btn:focus {
+.hero-btns .btn.focused {
   outline: 3px solid white;
   background-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
   transition: all 0.3s ease;
-} 
-
-.btn, .btn.dark-btn {
-  transition: all 0.3s ease;
-} 
-
-
-.active-section {
-  outline: 3px solid rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
 }
 
-.more-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-} 
+.hero-btns .btn:hover:not(.focused) {
+  background: #ffffffbf;
+}
+
+.hero-btns .btn.dark-btn:hover:not(.focused) {
+  background: #6d6d6e66;
+}
+
+/* When navbar is focused, reduce hero button focus visibility */
+.navbar:focus-within ~ .hero .hero-btns .btn.focused {
+  outline: none;
+  transform: none;
+  background: #fff;
+}
+
+.navbar:focus-within ~ .hero .hero-btns .btn.dark-btn.focused {
+  background: #6d6d6eb3;
+}
+
+/* Ensure only one element shows focus at a time */
+.hero-btns .btn.focused:not(:focus) {
+    outline: none !important;
+    transform: none !important;
+    background: #fff !important;
+  }
+  
+  .hero-btns .btn.dark-btn.focused:not(:focus) {
+    background: #6d6d6eb3 !important;
+  }
+  
+  /* When cards are focused, hide button focus */
+  .more-cards:focus-within ~ .hero .hero-btns .btn.focused {
+    outline: none !important;
+    transform: none !important;
+    background: #fff !important;
+  }
+  
+  .more-cards:focus-within ~ .hero .hero-btns .btn.dark-btn.focused {
+    background: #6d6d6eb3 !important;
+  }
+
+
+  

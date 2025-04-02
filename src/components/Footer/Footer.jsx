@@ -46,6 +46,7 @@ export default function Footer() {
       document.querySelector('.copyright-text')?.focus();
     }
   };
+  
 
 
   const handleKeyDown = (e) => {
@@ -84,7 +85,7 @@ export default function Footer() {
           const lastCard = cards[cards.length -20];
           lastCard.focus();
           window.dispatchEvent(new CustomEvent('setCardFocus', { 
-            detail: cards.length - 1 
+            detail: cards.length - 1
           }));
         }
         setFocusedIndex(-1);
@@ -101,9 +102,7 @@ export default function Footer() {
     }
   };
 
-
-
-  useEffect(() => {
+    useEffect(() => {
     const footer = footerRef.current;
     
     const handleSetFocus = (e) => {
@@ -189,5 +188,3 @@ export default function Footer() {
     </div>
   );
 }
-
-

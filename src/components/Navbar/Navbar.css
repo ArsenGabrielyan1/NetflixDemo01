@@ -183,15 +183,16 @@
     }
   }
 
-
-
   /* Add these styles to your existing Navbar.css */
-
+   .navbar:not(:focus-within) .focused {
+    border: none !important;
+    background-color: transparent !important;
+  }
 /* Search box when active */
 .box.active input {
   width: 300px !important;
   background: #3b3640;
-}
+  }
 
 .box.active .drop {
   display: block;
@@ -214,61 +215,30 @@
   display: block;
 }
 
-
- .navbar-left img.focused,
-.navbar-left li.focused,
-.box.focused,
-.icons.focused,
-.navbar-profile.focused {
-  outline: 3px solid white;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-} 
-
- 
- .box input {
-  transition: width 0.3s ease, background 0.3s ease;
-}
-
-
-
-/* Navbar.css - Updated hover styles */
-
-/* Only apply hover effects to elements with tabindex="0" */
-.navbar li[tabindex="0"]:hover::before {
-  content: "";
-  background-color: #fff;
-  position: absolute;
-  left: 0;
-  top: 22px;
-  bottom: 0;
-  height: 2px;
-  width: 100%;
-}
-
-/* Update the search box hover to only work when tabindex="0" */
-.box[tabindex="0"]:hover input {
-  width: 300px;
-  background: #3b3640;
-}
-
-.box[tabindex="0"]:hover .drop {
-  display: block;
-}
-
-/* Update profile dropdown hover */
-.navbar-profile[tabindex="0"]:hover .dropdown {
-  display: block;
-  cursor: pointer;
-}
-
-/* Keep the focused styles as they are for keyboard navigation */
+/* Focus styles */
 .navbar-left img.focused,
 .navbar-left li.focused,
 .box.focused,
 .icons.focused,
 .navbar-profile.focused {
-  outline: 3px solid white;
+border: 2px solid #fff;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 4px;
+}
+
+/* Search box transition */
+.box input {
+  transition:  0.3s ease;
+}
+
+.navbar-left img.focused {
+  border: 2px solid white !important;
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  border-radius: 4px !important;
+}
+
+/* Remove focus from right section when coming from below */
+.navbar:focus-within .navbar-right .focused {
+  border: none !important;
+  background-color: transparent !important;
 }

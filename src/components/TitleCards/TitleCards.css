@@ -123,8 +123,8 @@
 
 .card.focused,
 .card:focus {
-  outline: 3px solid white;
-  transform: scale(1.05);
+  border: 1px solid #fff;
+  border-radius: 4px;
   z-index: 10;
 }
 

@@ -18,8 +18,8 @@ export default function TitleCards({ title, category, idName , }) {
   const options = {
     method: 'GET',
     headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0YWE3NDMzM2VhNmNjMTE4M2E4MjQ3YTkyMDNiZjNkZiIsIm5iZiI6MTczNzIxMzI2NS4xMjksInN1YiI6IjY3OGJjNTUxZGJjZmYzM2E5YzY0ZjQ1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BSwce8BWbnOfO4l32I6NwC8psmNjKEgZqSv9l3UqSUo'
+    accept: 'application/json',
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0YWE3NDMzM2VhNmNjMTE4M2E4MjQ3YTkyMDNiZjNkZiIsIm5iZiI6MTczNzIxMzI2NS4xMjksInN1YiI6IjY3OGJjNTUxZGJjZmYzM2E5YzY0ZjQ1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BSwce8BWbnOfO4l32I6NwC8psmNjKEgZqSv9l3UqSUo'
     }
   };
 
@@ -73,9 +73,7 @@ export default function TitleCards({ title, category, idName , }) {
     navigate(`/player/${movieId}`);
   };
 
-
   const handleKeyDown = (e) => {
-    // Tizen TV remote specific key codes
     const KEY_LEFT = 37;
     const KEY_UP = 38;
     const KEY_RIGHT = 39;
@@ -87,6 +85,73 @@ export default function TitleCards({ title, category, idName , }) {
     if (!apiData.length) return;
   
     switch(e.keyCode || e.which) {
+      case KEY_DOWN:
+      e.preventDefault();
+      if (focusedCardIndex === apiData.length - 1) {
+        // Special section navigation
+        if (idName === "blockbuster") {
+          // From Blockbuster -> Only on Netflix
+          const nextSection = document.querySelector('#only');
+          if (nextSection) {
+            const firstCard = nextSection.querySelector('.card');
+            if (firstCard) {
+              firstCard.focus();
+              window.dispatchEvent(new CustomEvent('setCardFocus', {
+                detail: 0,
+                section: 1
+              }));
+              return;
+            }
+          }
+        } else if (idName === "only") {
+          // From Only on Netflix -> Upcoming
+          const nextSection = document.querySelector('#up');
+          if (nextSection) {
+            const firstCard = nextSection.querySelector('.card');
+            if (firstCard) {
+              firstCard.focus();
+              window.dispatchEvent(new CustomEvent('setCardFocus', {
+                detail: 0,
+                section: 2
+              }));
+              return;
+            }
+          }
+        } else {
+          // Default section navigation
+          const currentSection = document.getElementById(idName);
+          const nextSection = currentSection?.nextElementSibling?.querySelector('.TitleCards');
+          
+          if (nextSection) {
+            const firstCard = nextSection.querySelector('.card');
+            if (firstCard) {
+              firstCard.focus();
+              window.dispatchEvent(new CustomEvent('setCardFocus', {
+                detail: 0
+              }));
+              return;
+            }
+          } else {
+            // No more sections - move to footer
+            const firstFooterItem = document.querySelector('.footer-icons a');
+            if (firstFooterItem) {
+              firstFooterItem.focus();
+              window.dispatchEvent(new CustomEvent('setFooterFocus', { detail: 0 }));
+            }
+          }
+        }
+      } else {
+        // Normal down navigation within section
+        setFocusedCardIndex(prev => {
+          const newIndex = prev === -1 ? 0 : (prev + 1) % apiData.length;
+          scrollToCard(newIndex);
+          return newIndex;
+        });
+      }
+      break;
+      
+
+      
       case KEY_RIGHT:
         e.preventDefault();
         setFocusedCardIndex(prev => {
@@ -105,18 +170,18 @@ export default function TitleCards({ title, category, idName , }) {
         });
         break;
         
-      case KEY_DOWN:
-        e.preventDefault();
-        // Move focus to first footer item
-        const firstFooterItem = document.querySelector('.footer-icons a');
-        if (firstFooterItem) {
-          firstFooterItem.focus();
-          window.dispatchEvent(new CustomEvent('setFooterFocus', { detail: 0 }));
-        }
-        setFocusedCardIndex(-1);
-        break;
+      // case KEY_DOWN:
+      //   e.preventDefault();
+      //   // Move focus to first footer item
+      //   const firstFooterItem = document.querySelector('.footer-icons a');
+      //   if (firstFooterItem) {
+      //     firstFooterItem.focus();
+      //     window.dispatchEvent(new CustomEvent('setFooterFocus', { detail: 0 }));
+      //   }
+      //   setFocusedCardIndex(-1);
+      //   break;
         
-      case KEY_ENTER:
+       case KEY_ENTER:
         if (focusedCardIndex >= 0 && focusedCardIndex < apiData.length) {
           handlePlayMovie(apiData[focusedCardIndex].id);
         }
@@ -133,7 +198,6 @@ export default function TitleCards({ title, category, idName , }) {
         break;
     }
   };
-  
 
   const scrollToCard = (index) => {
     if (cardsRef.current) {
@@ -192,29 +256,29 @@ export default function TitleCards({ title, category, idName , }) {
 
   return (
     <div className="TitleCards" id={idName}>
-      <h2>{title ? title : 'Popular on Netflix'}</h2>
-     
+      { <h2>{title ? title : 'Popular on Netflix'}</h2> }
+    
       <div className="card-list"  ref={cardsRef} tabIndex="-1">
         {apiData.map((card, index) => {
           const isLiked = likedMovies.some((likedMovie) => likedMovie.id === card.id);
           const isFocused = focusedCardIndex === index;
           const showTrailer = (hoveredMovieId === card.id && !isKeyboardMode) || 
-                            (isFocused && isKeyboardMode && trailerKey);
+            (isFocused && isKeyboardMode && trailerKey);
           
           return (
              <div 
-               className={`card ${isFocused ? 'focused' : ''}`}
-               key={card.id}
-               tabIndex="0"
-               onMouseEnter={() => handleMouseEnter(card.id)}
-               onMouseLeave={handleMouseLeave}
-               onFocus={() => {
-                 setFocusedCardIndex(index);
-                 setIsKeyboardMode(true);
-               }
-             }>
-
-              <div className='all-img'>
+             className={`card ${isFocused ? 'focused' : ''}`}
+             key={card.id}
+             id={idName}
+             tabIndex="0"
+             onMouseEnter={() => handleMouseEnter(card.id)}
+             onMouseLeave={handleMouseLeave}
+             onFocus={() => {
+               setFocusedCardIndex(index);
+               setIsKeyboardMode(true);
+             }}
+              >
+         <div className='all-img'>
                 <img 
                   src={`https://image.tmdb.org/t/p/w500${card.backdrop_path}`}
                   alt={card.original_title} 
@@ -251,9 +315,8 @@ export default function TitleCards({ title, category, idName , }) {
             </div>
           );
         })}
+        
       </div>
+      
     </div>
   );}
-
-
-

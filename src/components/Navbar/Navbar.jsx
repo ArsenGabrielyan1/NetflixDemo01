@@ -51,6 +51,8 @@ export default function Navbar({ onNavbarFocusEnd }) {
     const KEY_ENTER = 13;
     const KEY_RETURN = 10009;
     
+    const handleNavbarFocusEnd = () => {}
+
     switch(e.keyCode || e.which) {
       case KEY_RIGHT:
         e.preventDefault();
@@ -104,10 +106,10 @@ export default function Navbar({ onNavbarFocusEnd }) {
       case KEY_RETURN:
         if (isSearchOpen) {
           setIsSearchOpen(false);
-          setFocusedIndex(totalLeftItems); // Refocus on search box
+          setFocusedIndex(totalLeftItems); 
         } else if (isProfileOpen) {
           setIsProfileOpen(false);
-          setFocusedIndex(totalLeftItems + 2); // Refocus on profile
+          setFocusedIndex(totalLeftItems + 2); 
         }
         break;
         
@@ -116,7 +118,6 @@ export default function Navbar({ onNavbarFocusEnd }) {
     }
   };
 
-  
   const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
     setIsProfileOpen(false);
@@ -151,6 +152,17 @@ export default function Navbar({ onNavbarFocusEnd }) {
       }
     }
   };
+  useEffect(() => {
+    const handleNavbarFocus = (e) => {
+      setFocusedIndex(e.detail);
+    };
+  
+    window.addEventListener('navbarFocus', handleNavbarFocus);
+    
+    return () => {
+      window.removeEventListener('navbarFocus', handleNavbarFocus);
+    };
+  }, []);
 
   useEffect(() => {
     const navbarElement = navbarRef.current;
@@ -240,8 +252,8 @@ export default function Navbar({ onNavbarFocusEnd }) {
             </div>
           )}
         </div>
-        
-        <img 
+         
+       <img 
           src={bell} 
           alt="Notifications" 
           className={`icons ${focusedIndex === totalLeftItems + 1 ? 'focused' : ''}`}
