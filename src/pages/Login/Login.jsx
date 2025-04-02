@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import './Login.css'
 import logon from '../../assets/logo-netflix.jpeg'
-
 import netflix_spinner from '../../assets/gifs/netflix-gif.gif'
 import { useNavigate } from 'react-router-dom'
 
@@ -18,7 +17,7 @@ export default function Login() {
     event.preventDefault();
      setLoading(true)
     if(signState==="Sign In"){
-  await login(email, password)
+  await logon(email, password)
      navigate(-1)
     } else{
     await signup(name,email,password)

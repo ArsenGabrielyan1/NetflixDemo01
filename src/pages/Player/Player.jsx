@@ -10,8 +10,8 @@ import play_vd from '../../assets/play-vd.png';
 import pause_vd from '../../assets/pause-vd.png';
 import mute from '../../assets/mute.png';
 import unmute from '../../assets/unmute.png';
-import fullscreen from '../../assets/fullscreen.png';
-import miniscreen from '../../assets/miniscreen.png';
+// import fullscreen from '../../assets/fullscreen.png';
+// import miniscreen from '../../assets/miniscreen.png';
 
 export default function Player() {
   const { id } = useParams();
@@ -192,9 +192,9 @@ export default function Player() {
                 onChange={handleVolumeChange}
                 style={{ accentColor: "white" }}
               />
-              <button onClick={handleFullScreen} >
+              {/* <button onClick={handleFullScreen} >
                 {isFullScreen ? <img src={miniscreen} alt="MiniScreen"/> : <img src={fullscreen} alt="FullScreen"/>}
-              </button>
+              </button> */}
             </div>
           )}
         </div>

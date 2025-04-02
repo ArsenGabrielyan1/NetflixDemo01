@@ -1,97 +1,56 @@
 .TitleCards {
-  margin-top: 30px;
+  margin-top: 50px;
   animation: fadeIn 0.8s ease-in-out;
-   z-index: 10;
+  z-index: 10;
   }
+
 
   @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
- } 
-
- .card-list {
-   width: 100%;
-   display: flex;
-   overflow-x: scroll; 
-   overflow-y: visible;  
-   gap: 30px;
-   height: 40vh;  
-   position: relative;  
-  }
-
- .card {
-  position: relative;
-  transition: transform 0.3s ease-in-out,  0.3s ease-in-out;
-  flex: 0 0 auto;  
-}
-
-
-
-
-.card img:hover{
-  transform: scale(1.4); 
-  box-shadow: 0px 50px 25px rgba(0, 0, 0, 0.4);
-  z-index: 10;
-} 
-
- 
-
-
- .card:hover .trailer-overlay{
-   opacity: 1;
-   transform: scale(1.4);
-   z-index: 10;
-   margin-top: 10px;
-    width: 120%;
-    height: 90%;
-  }
-
-  .card-list:hover .card:not(:hover) {
-    opacity: 0.2;
-    transition: opacity 0.5s ease;
-   }  
+    from {
+     opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+   } 
   
-  @keyframes fadeInTrailer {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1.3);
-  }
+
+.card-list {
+  display: flex;
+  overflow-x: scroll;
+  gap: 30px;
 }
 
+.card {
+  position: relative;
+}
 .card img {
-  width: 335px;
+  width: 334px;
   height: 210px;
   border-radius: 4px;
   object-fit: cover;
+  border-radius: 4px;
 }
-
-.card-list .card p {
+.card-list .card p{
   position: absolute;
-  bottom: 60px;
+  bottom: 40px;
   text-decoration: none !important;
   font-weight: 600;
   font-size: 14px;
   color: #fff;
 }
 
+
 .btn-like {
   position: absolute;
-  top: 220px;
-  right: 85px;
+  top: 10px;
+  right: 10px;
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 10;
+  z-index: 2;
   font-size: 20px;
 }
 
@@ -101,75 +60,116 @@
   left: 0;
   width: 334px;
   height: 210px;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
-  align-items: center; 
-  z-index: 4;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; 
-   }
-
-
- .card-list::-webkit-scrollbar {
+  align-items: center;
+  border-radius: 4px;
+  z-index: 1;
+}
+.card-list::-webkit-scrollbar{
   display: none;
- }
-
- .btn-like svg {
-  width: 26px;
-  height: 26px;
+}
+.btn-like  svg {
+  width: 24px;
+  height: 24px;
   transition: transform 0.2s ease-in-out;
   z-index: 15;
-
  }
-
- .btn-like:hover svg {
-  transform: scale(1.2);
- }
-
-  .btn-show-movie {
-   display: inline-block;
-   padding: 10px 20px;
-   background-color: #e50914; 
-   color: #fff;
-   font-size: 14px;
-   font-weight: bold;
-   border: none;
-   border-radius: 4px;
-   cursor: pointer;
-   transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
-   margin-left: 57px;
- }
+ 
+ .btn-show-movie {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #e50914; 
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
 
 .btn-show-movie:hover {
-  background-color: #72060c;
-  transform: scale(1.04);
+ background-color: #72060c;
+ transform: scale(1.04);
 }
 
 .btn-show-movie:active {
-  transform: scale(1.1);
+ transform: scale(1.1);
 }
 
-@media (max-width: 800px) {
-  .TitleCards {
-    margin-top: 20px;
-    margin-bottom: 0;
-  }
-  
-  .TitleCards h2 {
-    font-size: 20px;
-  }
-  
-  .card-list p {
-    font-size: 14px;
-  }
-  
-  .btn-show-movie {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
-}    
+ .btn-like:hover svg {
+  transform: scale(1.2);
+ }  
+
+@media (max-width:800px) {
+.TitleCards{
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+.TitleCards h2{
+  font-size: 20px;
+}
+
+.card-list p {
+  font-size: 12px;
+}}  
+
+ .card {
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.card.focused,
+.card:focus {
+  outline: 3px solid white;
+  transform: scale(1.05);
+  z-index: 10;
+}
+
+.card.focused .btn-show-movie,
+.card:focus .btn-show-movie {
+  display: inline-block;
+}
+
+.card-list {
+  scroll-behavior: smooth;
+} 
+
+/* Ensure cards are properly spaced when focused */
+.card-list .card {
+  margin-right: 30px;
+  scroll-snap-align: start;
+}
 
 
 
 
+/* 
+
+.hero-btns .btn[tabindex="0"]:hover {
+    background: #ffffffbf;
+}
+.hero-btns .btn.dark-btn[tabindex="0"]:hover {
+    background: #6d6d6e66;
+}
+
+
+.card[tabindex="0"]:hover {
+    transform: scale(1.05);
+}
+.card[tabindex="0"]:hover .btn-show-movie {
+    display: inline-block;
+}
+
+
+.footer-icons img[tabindex="0"]:hover {
+    transform: scale(1.3);
+}
+.footer ul li[tabindex="0"]:hover {
+    color: gray;
+}
+.copyright-text[tabindex="0"]:hover {
+    color: #4e4b4b;
+} */

@@ -51,3 +51,58 @@
       grid-template-columns: auto auto  ; 
     }
   }
+
+
+  /* Add these styles to existing Footer.css */
+
+/* .footer a:focus,
+.footer li:focus,
+.footer .copyright-text:focus {
+  outline: 2px solid white;
+}
+
+.footer .focused {
+  outline: 2px solid white;
+}
+
+.footer-icons img:focus,
+.footer-icons .focused img {
+  transform: scale(1.3);
+}
+
+.footer ul li:focus,
+.footer ul .focused {
+  color: gray;
+}
+
+.copyright-text:focus,
+.copyright-text.focused {
+  color: #4e4b4b;
+} */
+
+/* Home.css - Update button hover effects */
+.hero-btns .btn[tabindex="0"]:hover {
+  background: #ffffffbf;
+}
+.hero-btns .btn.dark-btn[tabindex="0"]:hover {
+  background: #6d6d6e66;
+}
+
+/* TitleCards.css - Update card hover effects */
+.card[tabindex="0"]:hover {
+  transform: scale(1.05);
+}
+.card[tabindex="0"]:hover .btn-show-movie {
+  display: inline-block;
+}
+
+/* Footer.css - Update hover effects */
+.footer-icons img[tabindex="0"]:hover {
+  transform: scale(1.3);
+}
+.footer ul li[tabindex="0"]:hover {
+  color: gray;
+}
+.copyright-text[tabindex="0"]:hover {
+  color: #4e4b4b;
+}

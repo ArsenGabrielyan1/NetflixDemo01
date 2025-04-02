@@ -4,6 +4,7 @@
  export default defineConfig({
    plugins: [react()],
    base: './', // Ensure paths are relative
+
    build: {
     outDir: 'dist',
     rollupOptions: {
@@ -19,7 +20,7 @@
   },
   preview: {
     open: true,
-    port: 5000, // Change if needed
+    port: 5000, 
   }
 });
 

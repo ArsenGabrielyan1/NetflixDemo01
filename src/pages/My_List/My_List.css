@@ -74,3 +74,18 @@
      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
    }
  }
+
+ .grid-item {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.grid-item.focused {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  outline: 3px solid white;
+  z-index: 10;
+}
+
+.grid-container {
+  scroll-behavior: smooth;
+}
