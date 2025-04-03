@@ -85,74 +85,132 @@ export default function TitleCards({ title, category, idName , }) {
     if (!apiData.length) return;
   
     switch(e.keyCode || e.which) {
-      case KEY_DOWN:
-      e.preventDefault();
-      if (focusedCardIndex === apiData.length - 1) {
-        // Special section navigation
-        if (idName === "blockbuster") {
-          // From Blockbuster -> Only on Netflix
-          const nextSection = document.querySelector('#only');
-          if (nextSection) {
-            const firstCard = nextSection.querySelector('.card');
-            if (firstCard) {
-              firstCard.focus();
-              window.dispatchEvent(new CustomEvent('setCardFocus', {
-                detail: 0,
-                section: 1
-              }));
-              return;
-            }
-          }
-        } else if (idName === "only") {
-          // From Only on Netflix -> Upcoming
-          const nextSection = document.querySelector('#up');
-          if (nextSection) {
-            const firstCard = nextSection.querySelector('.card');
-            if (firstCard) {
-              firstCard.focus();
-              window.dispatchEvent(new CustomEvent('setCardFocus', {
-                detail: 0,
-                section: 2
-              }));
-              return;
-            }
-          }
-        } else {
-          // Default section navigation
-          const currentSection = document.getElementById(idName);
-          const nextSection = currentSection?.nextElementSibling?.querySelector('.TitleCards');
-          
-          if (nextSection) {
-            const firstCard = nextSection.querySelector('.card');
-            if (firstCard) {
-              firstCard.focus();
-              window.dispatchEvent(new CustomEvent('setCardFocus', {
-                detail: 0
-              }));
-              return;
-            }
-          } else {
-            // No more sections - move to footer
-            const firstFooterItem = document.querySelector('.footer-icons a');
-            if (firstFooterItem) {
-              firstFooterItem.focus();
-              window.dispatchEvent(new CustomEvent('setFooterFocus', { detail: 0 }));
-            }
-          }
-        }
-      } else {
-        // Normal down navigation within section
-        setFocusedCardIndex(prev => {
-          const newIndex = prev === -1 ? 0 : (prev + 1) % apiData.length;
-          scrollToCard(newIndex);
-          return newIndex;
+      case KEY_UP:
+        e.preventDefault();
+        document.querySelectorAll('.TitleCards').forEach(section => {
+          section.classList.remove('nav-highlight');
         });
-      }
-      break;
       
+        let prevSectionId;
+        if (idName === "top") prevSectionId = "up";        
+        else if (idName === "up") prevSectionId = "only";  
+        else if (idName === "only") prevSectionId = "blockbuster"; 
+        else prevSectionId = null;                         
+      
+        if (prevSectionId) {
 
+          setTimeout(() => {
+            const prevSection = document.getElementById(prevSectionId);
+            if (prevSection) {
+              prevSection.classList.add('nav-highlight');
+              const cards = prevSection.querySelectorAll('.card');
+              if (cards.length > 0) {
+                const lastCard = cards[cards.length - 1];
+                lastCard.focus();
+                prevSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+               
+                window.dispatchEvent(new CustomEvent('setCardFocus', {
+                  detail: cards.length - 1,
+                  section: prevSectionId === "blockbuster" ? 0 : 
+                          prevSectionId === "only" ? 1 :
+                          prevSectionId === "up" ? 2 : 3
+                }));
+              }
+            }
+          }, 150);
+        } else {
       
-      case KEY_RIGHT:
+          setTimeout(() => {
+            const playButton = document.querySelector('.hero-btns .btn');
+            if (playButton) {
+              playButton.focus();
+              window.dispatchEvent(new CustomEvent('focusHeroButton', { detail: 0 }));
+            }
+          }, 150);
+        }
+        break;
+      
+      case KEY_DOWN:
+        e.preventDefault();
+        if (idName === "top") {
+          const footer = document.querySelector('.footer a');
+          if (footer) {
+            document.getElementById(idName)?.classList.remove('nav-highlight');
+            footer.focus();
+          }
+          break;
+        }
+        document.querySelectorAll('.TitleCards').forEach(section => {
+          section.classList.remove('nav-highlight', 'nav-highlight-leave');
+        });
+      
+        const currentSection = document.getElementById(idName);
+        if (currentSection) {
+          currentSection.classList.add('nav-highlight-leave');
+        }
+      
+        setTimeout(() => {
+          if (idName === "blockbuster") {
+            const nextSection = document.querySelector('#only');
+            if (nextSection) {
+              nextSection.classList.add('nav-highlight');
+              const firstCard = nextSection.querySelector('.card');
+              if (firstCard) {
+                firstCard.focus();
+                window.dispatchEvent(new CustomEvent('setCardFocus', {
+                  detail: 0,
+                  section: 1
+                }));
+              }
+            }
+          } 
+          else if (idName === "only") {
+            const nextSection = document.querySelector('#up');
+            if (nextSection) {
+              nextSection.classList.add('nav-highlight');
+              const firstCard = nextSection.querySelector('.card');
+              if (firstCard) {
+                firstCard.focus();
+                window.dispatchEvent(new CustomEvent('setCardFocus', {
+                  detail: 0,
+                  section: 2
+                }));
+              }
+            }
+          }
+          else if (idName === "up") {
+            const nextSection = document.querySelector('#top');
+            if (nextSection) {
+              nextSection.classList.add('nav-highlight');
+              const firstCard = nextSection.querySelector('.card');
+              if (firstCard) {
+                firstCard.focus();
+                window.dispatchEvent(new CustomEvent('setCardFocus', {
+                  detail: 0,
+                  section: 3
+                }));
+              }
+            }
+          }
+          else {
+            // Loop back to Blockbuster
+            const nextSection = document.querySelector('#blockbuster');
+            if (nextSection) {
+              nextSection.classList.add('nav-highlight');
+              const firstCard = nextSection.querySelector('.card');
+              if (firstCard) {
+                firstCard.focus();
+                window.dispatchEvent(new CustomEvent('setCardFocus', {
+                  detail: 0,
+                  section: 0
+                }));
+              }
+            }
+          }
+        }, 150); 
+        break;
+
+     case KEY_RIGHT:
         e.preventDefault();
         setFocusedCardIndex(prev => {
           const newIndex = prev === -1 ? 0 : (prev + 1) % apiData.length;
@@ -160,28 +218,18 @@ export default function TitleCards({ title, category, idName , }) {
           return newIndex;
         });
         break;
-        
+  
       case KEY_LEFT:
         e.preventDefault();
+
         setFocusedCardIndex(prev => {
           const newIndex = prev === -1 ? 0 : (prev - 1 + apiData.length) % apiData.length;
           scrollToCard(newIndex);
           return newIndex;
         });
         break;
-        
-      // case KEY_DOWN:
-      //   e.preventDefault();
-      //   // Move focus to first footer item
-      //   const firstFooterItem = document.querySelector('.footer-icons a');
-      //   if (firstFooterItem) {
-      //     firstFooterItem.focus();
-      //     window.dispatchEvent(new CustomEvent('setFooterFocus', { detail: 0 }));
-      //   }
-      //   setFocusedCardIndex(-1);
-      //   break;
-        
-       case KEY_ENTER:
+
+   case KEY_ENTER:
         if (focusedCardIndex >= 0 && focusedCardIndex < apiData.length) {
           handlePlayMovie(apiData[focusedCardIndex].id);
         }
@@ -211,6 +259,7 @@ export default function TitleCards({ title, category, idName , }) {
       }
     }
   };
+  
 
   useEffect(() => {
     const cards = cardsRef.current;
@@ -253,6 +302,19 @@ export default function TitleCards({ title, category, idName , }) {
       }
     }
   }, [focusedCardIndex, apiData, isKeyboardMode]);
+
+
+  useEffect(() => {
+    return () => {
+ 
+      const section = document.getElementById(idName);
+      if (section) {
+        section.classList.remove('nav-highlight', 'nav-highlight-leave');
+      }
+    };
+  }, [idName]);
+
+
 
   return (
     <div className="TitleCards" id={idName}>
@@ -300,19 +362,7 @@ export default function TitleCards({ title, category, idName , }) {
               >
                 {isLiked ? <FaHeart color="red" /> : <FaRegHeart color="white"/>}
               </button>
-   
-              {showTrailer && (
-                <div className="trailer-overlay">
-                  <ReactPlayer
-                    url={`https://www.youtube.com/watch?v=${trailerKey}`}
-                    playing={isFocused && isKeyboardMode}
-                    controls={true}
-                    width="100%" 
-                    height="100%"
-                  />
-                </div>
-              )}
-            </div>
+     </div>
           );
         })}
         

@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react'
-import './Footer.css'
-import face from '../../assets/11.png'
-import vk from '../../assets/44.png'
-import twiter from '../../assets/33.png'
-import instagram from '../../assets/22.png'
+import React, { useState, useEffect, useRef } from 'react';
+import './Footer.css';
+import face from '../../assets/11.png';
+import vk from '../../assets/44.png';
+import twiter from '../../assets/33.png';
+import instagram from '../../assets/22.png';
 
 export default function Footer() {
   const [footerlist] = useState([
@@ -11,12 +11,12 @@ export default function Footer() {
     {id: 2, name: 'Help Centre'},
     {id: 3, name: 'Gift Cards'},
     {id: 4, name: 'Media Center'},
-    {id: 5, name: 'Investor Realations'},
+    {id: 5, name: 'Investor Relations'},
     {id: 6, name: 'Jobs'},
     {id: 7, name: 'Terms of Use'},
     {id: 8, name: 'Privacy'},
     {id: 9, name: 'Legal Notices'},
-    {id: 10, name: 'Cookie Preferencec'},
+    {id: 10, name: 'Cookie Preferences'},
     {id: 11, name: 'Corporate Information'},
     {id: 12, name: 'Contact Us'},
   ]);
@@ -26,16 +26,20 @@ export default function Footer() {
   const totalItems = totalSocialItems + totalListItems + 1;
   
   const [focusedIndex, setFocusedIndex] = useState(-1);
-  const footerRef = useRef();
   const socialIconsRef = useRef([]);
   const listItemsRef = useRef([]);
-
-
+  const footerRef = useRef(null);
 
   useEffect(() => {
     socialIconsRef.current = socialIconsRef.current.slice(0, totalSocialItems);
     listItemsRef.current = listItemsRef.current.slice(0, totalListItems);
   }, [footerlist]);
+
+  useEffect(() => {
+    if (footerRef.current) {
+      footerRef.current.setAttribute('tabindex', '-1');
+    }
+  }, []);
 
   const focusElement = (index) => {
     if (index < totalSocialItems) {
@@ -46,11 +50,9 @@ export default function Footer() {
       document.querySelector('.copyright-text')?.focus();
     }
   };
-  
-
 
   const handleKeyDown = (e) => {
-    // Tizen TV remote specific key codes
+
     const KEY_LEFT = 37;
     const KEY_UP = 38;
     const KEY_RIGHT = 39;
@@ -76,22 +78,38 @@ export default function Footer() {
           return newIndex;
         });
         break;
-        
+
       case KEY_UP:
         e.preventDefault();
-       
-        const cards = document.querySelectorAll('.card');
-        if (cards.length > 0) {
-          const lastCard = cards[cards.length -20];
-          lastCard.focus();
-          window.dispatchEvent(new CustomEvent('setCardFocus', { 
-            detail: cards.length - 1
-          }));
+        // Navigate to Top Picks section
+        const topSection = document.getElementById('top');
+        if (topSection) {
+          const cards = topSection.querySelectorAll('.card');
+          if (cards.length > 0) {
+            // Focus last card of Top Picks section
+            cards[cards.length - 1].focus();
+            topSection.classList.add('nav-highlight');
+            topSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            // Dispatch focus event
+            window.dispatchEvent(new CustomEvent('setCardFocus', {
+              detail: cards.length - 1,
+              section: 3 // 3 corresponds to Top Picks
+            }));
+          }
         }
-        setFocusedIndex(-1);
         break;
 
-     case KEY_ENTER:
+      case KEY_DOWN:
+        e.preventDefault();
+        // Navigate back to hero buttons
+        const playButton = document.querySelector('.hero-btns .btn');
+        if (playButton) {
+          playButton.focus();
+          window.dispatchEvent(new CustomEvent('focusHeroButton', { detail: 0 }));
+        }
+        break;
+        
+      case KEY_ENTER:
         if (focusedIndex >= 0 && focusedIndex < totalSocialItems) {
           socialIconsRef.current[focusedIndex]?.click();
         }
@@ -102,7 +120,7 @@ export default function Footer() {
     }
   };
 
-    useEffect(() => {
+  useEffect(() => {
     const footer = footerRef.current;
     
     const handleSetFocus = (e) => {
@@ -120,7 +138,7 @@ export default function Footer() {
   }, [focusedIndex]);
 
   return (
-    <div className="footer" ref={footerRef} tabIndex="-1">
+    <div className="footer" ref={footerRef}>
       <div className="footer-icons">
         <a 
           href="https://www.facebook.com/netflix/?locale=ru_RU" 
@@ -175,15 +193,16 @@ export default function Footer() {
           </li>
         ))}
       </ul>
-       <p  tabIndex="0"
+      <p 
+        tabIndex="0"
         ref={el => {
           if (el) {
             listItemsRef.current[totalListItems] = el;
           }
         }}
-        className={focusedIndex === totalItems - 1 ? 'focused' : ''}
+        className={`copyright-text ${focusedIndex === totalItems - 1 ? 'focused' : ''}`}
       >
-        @ 1997-2023 Netflix,Inc.
+        @ 1997-2023 Netflix, Inc.
       </p>
     </div>
   );
