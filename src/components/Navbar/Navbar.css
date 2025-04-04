@@ -187,11 +187,12 @@
    .navbar:not(:focus-within) .focused {
     border: none !important;
     background-color: transparent !important;
-  }
+    }
 /* Search box when active */
 .box.active input {
   width: 300px !important;
   background: #3b3640;
+  
   }
 
 .box.active .drop {
@@ -221,9 +222,13 @@
 .box.focused,
 .icons.focused,
 .navbar-profile.focused {
-border: 2px solid #fff;
-  background-color: rgba(255, 255, 255, 0.3);
+
+  background-color: rgba(135, 131, 131, 0.3);
   border-radius: 4px;
+  outline: none !important;
+  border: 1px solid #fff;
+
+  
 }
 
 /* Search box transition */
@@ -237,8 +242,9 @@ border: 2px solid #fff;
   border-radius: 4px !important;
 }
 
-/* Remove focus from right section when coming from below */
 .navbar:focus-within .navbar-right .focused {
-  border: none !important;
-  background-color: transparent !important;
+border: 1px solid #fff;
+background-color: transparent !important;
+outline: none !important;
+
 }

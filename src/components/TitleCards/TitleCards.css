@@ -120,12 +120,13 @@
 
 .card-list {
   scroll-behavior: smooth;
-} 
+
+  } 
 
 
 .card-list .card {
   margin-right: 30px;
-  scroll-snap-align: start;
+  scroll-snap-align:start;
 }
 
 
@@ -145,4 +146,5 @@
   opacity: 0.7;
  
 }
+
 

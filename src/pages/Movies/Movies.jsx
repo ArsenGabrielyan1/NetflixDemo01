@@ -1,21 +1,3 @@
-// import React from 'react'
-// import Navbar from '../../components/Navbar/Navbar'
-// import TitleCards from '../../components/TitleCards/TitleCards'
-// import Footer from '../../components/Footer/Footer'
-
-// export default function Movies() {
-//     return (
-//        <div className='Tv_Shows'>
-//     <Navbar/>
-//        <div className="block">
-//       <TitleCards title={'Only on Netflix'} category={"popular"}  idName={"only"}/>
-//      </div>
-//   <Footer/>
-// </div>
-//   )
-// }
-
-
 import React, { useEffect, useRef } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
 import TitleCards from '../../components/TitleCards/TitleCards'

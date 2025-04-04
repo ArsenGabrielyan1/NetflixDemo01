@@ -129,6 +129,12 @@ export default function TitleCards({ title, category, idName , }) {
           }, 150);
         }
         break;
+
+
+
+
+
+        
       
       case KEY_DOWN:
         e.preventDefault();
@@ -247,19 +253,43 @@ export default function TitleCards({ title, category, idName , }) {
     }
   };
 
+  // const scrollToCard = (index) => {
+  //   if (cardsRef.current) {
+  //     const cardElements = cardsRef.current.querySelectorAll('.card');
+  //     if (cardElements[index]) {
+  //       cardElements[index].scrollIntoView({
+  //         behavior: 'smooth',
+  //         block: 'nearest',
+  //         inline: 'center'
+  //       });
+  //     }
+  //   }
+  // };
   const scrollToCard = (index) => {
-    if (cardsRef.current) {
-      const cardElements = cardsRef.current.querySelectorAll('.card');
-      if (cardElements[index]) {
-        cardElements[index].scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center'
-        });
-      }
-    }
-  };
+    if (!cardsRef.current) return;
   
+    const container = cardsRef.current;
+    const cards = container.querySelectorAll('.card');
+    if (!cards[index]) return;
+  
+    // Force synchronous layout calculation
+    container.style.overflow = 'hidden';
+    container.offsetHeight; // Trigger reflow
+    container.style.overflow = '';
+  
+    const containerWidth = container.offsetWidth;
+    const card = cards[index];
+    const cardWidth = card.offsetWidth;
+    const cardLeft = card.offsetLeft;
+    
+    // Calculate scroll position to center the card
+    const scrollTo = cardLeft - (containerWidth / 2) + (cardWidth / 2);
+  
+    container.scrollTo({
+      left: scrollTo,
+      behavior: 'smooth'
+    });
+  };
 
   useEffect(() => {
     const cards = cardsRef.current;

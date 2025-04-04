@@ -87,7 +87,7 @@ export default function Footer() {
           const cards = topSection.querySelectorAll('.card');
           if (cards.length > 0) {
             // Focus last card of Top Picks section
-            cards[cards.length - 1].focus();
+            cards[cards.length - 20].focus();
             topSection.classList.add('nav-highlight');
             topSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             // Dispatch focus event
