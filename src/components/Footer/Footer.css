@@ -53,18 +53,11 @@
   }
 
 
-
-
- .footer a:focus,
+.footer a:focus,
 .footer li:focus,
 .footer .copyright-text:focus {
   outline: 2px solid white;
 }
-
-.footer .focused {
-  outline: 2px solid white;
-}
-
 
 .footer ul li:focus,
 .footer ul .focused {
@@ -75,7 +68,6 @@
 .copyright-text.focused {
   color: #4e4b4b;
 } 
-
 
 .hero-btns .btn[tabindex="0"]:hover {
   background: #ffffffbf;

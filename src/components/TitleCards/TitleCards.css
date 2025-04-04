@@ -1,7 +1,8 @@
 .TitleCards {
-  margin-top: 50px;
+  margin-top: 60px;
   animation: fadeIn 0.8s ease-in-out;
   z-index: 10;
+  transition: all 0.3s ease;
   }
 
 
@@ -25,6 +26,7 @@
 
 .card {
   position: relative;
+
 }
 .card img {
   width: 334px;
@@ -40,6 +42,7 @@
   font-weight: 600;
   font-size: 14px;
   color: #fff;
+
 }
 
 
@@ -79,48 +82,42 @@
 
 .btn-show-movie:hover {
  background-color: #72060c;
- transform: scale(1.04);
 }
-
-.btn-show-movie:active {
- transform: scale(1.1);
-}
-
- .btn-like:hover svg {
-  transform: scale(1.2);
- }  
-
-@media (max-width:800px) {
-.TitleCards{
+ 
+ @media (max-width:800px) {
+ .TitleCards{
   margin-top: 20px;
   margin-bottom: 0;
-}
-.TitleCards h2{
+ }
+ .TitleCards h2{
   font-size: 20px;
-}
+ }
 
-.card-list p {
+ .card-list p {
   font-size: 12px;
-}}  
+ }}  
 
  .card {
   transition: all 0.3s ease;
-  outline: none;
-}
-.card:focus {
-  border: 2px solid #e5e4e4e7;
+  /* outline: none; */
+  }
+
+  .card:focus {
+  outline-width: medium #ffffff;
+  outline: auto;
+  border: transparent;
   border-radius: 4px;
-  z-index: 30;
-}
+   z-index: 30;
+  }
 
-.card.focused .btn-show-movie,
-.card:focus .btn-show-movie {
-  display: inline-block;
-}
+ .card.focused .btn-show-movie,
+ .card:focus .btn-show-movie {
+   display: inline-block;
+  }
 
-.card-list {
-  scroll-behavior: smooth;
-} 
+ .card-list {
+   scroll-behavior: smooth;
+ }  
 
 
 .card-list .card {
@@ -129,22 +126,9 @@
 
 }
 
-
-.TitleCards.nav-highlight {
-  border: none;
-  outline: none;
-  border-radius: 8px;
-  padding: 10px;
-  margin: -12px -10px; 
-   transition: all 0.3s ease;
-}
-
-
-
 .TitleCards.nav-highlight-leave {
   transition: all 0.3s ease;
   opacity: 0.7;
-
 }
 
 
@@ -156,16 +140,10 @@
   margin: -12px -10px; 
   transition: all 0.3s ease;
   opacity: 1 !important; 
-  /* Ensure full opacity */
-  opacity: 1;
-  transform: scale(1.02);
   z-index: 20;
 }
 
 .TitleCards.nav-highlight-leave {
   transition: all 0.3s ease;
-  opacity: 0.7;
-}
-.TitleCards {
-  transition: all 0.3s ease;
+   opacity: 0.7;
 }

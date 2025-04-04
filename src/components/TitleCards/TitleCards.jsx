@@ -202,7 +202,6 @@ export default function TitleCards({ title, category, idName , }) {
             }
           }
           else {
-            // Loop back to Blockbuster
             const nextSection = document.querySelector('#blockbuster');
             if (nextSection) {
               nextSection.classList.add('nav-highlight');
@@ -325,8 +324,6 @@ export default function TitleCards({ title, category, idName , }) {
       }
     };
   }, [idName]);
-
-
 
   return (
     <div className="TitleCards" id={idName}>
