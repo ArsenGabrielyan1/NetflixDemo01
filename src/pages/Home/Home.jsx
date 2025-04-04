@@ -56,7 +56,8 @@ export default function Home() {
         case KEY_DOWN:
   e.preventDefault();
   if (focusedButton === 0 || focusedButton === 1) {
-     setTimeout(() => {
+    // First down press from hero buttons - focus first section (Blockbuster)
+    setTimeout(() => {
       const firstSection = document.querySelector(`#${titleCardSections[0].idName}`);
       if (firstSection) {
         firstSection.classList.add('nav-highlight');
@@ -84,6 +85,7 @@ export default function Home() {
         break;
         
       case KEY_RETURN:
+        // Handle back button if needed
         break;
         
       default:

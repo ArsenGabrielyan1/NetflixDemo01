@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import './TitleCards.css';
 import { useNavigate } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import ReactPlayer from 'react-player';
-
 
 export default function TitleCards({ title, category, idName , }) {
   const [apiData, setApiData] = useState([]);
@@ -85,57 +83,62 @@ export default function TitleCards({ title, category, idName , }) {
     if (!apiData.length) return;
   
     switch(e.keyCode || e.which) {
+
       case KEY_UP:
-        e.preventDefault();
-        document.querySelectorAll('.TitleCards').forEach(section => {
-          section.classList.remove('nav-highlight');
-        });
-      
-        let prevSectionId;
-        if (idName === "top") prevSectionId = "up";        
-        else if (idName === "up") prevSectionId = "only";  
-        else if (idName === "only") prevSectionId = "blockbuster"; 
-        else prevSectionId = null;                         
-      
-        if (prevSectionId) {
+  e.preventDefault();
+  document.querySelectorAll('.TitleCards').forEach(section => {
+    section.classList.remove('nav-highlight', 'nav-highlight-leave');
+  });
 
-          setTimeout(() => {
-            const prevSection = document.getElementById(prevSectionId);
-            if (prevSection) {
-              prevSection.classList.add('nav-highlight');
-              const cards = prevSection.querySelectorAll('.card');
-              if (cards.length > 0) {
-                const lastCard = cards[cards.length - 1];
-                lastCard.focus();
-                prevSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-               
-                window.dispatchEvent(new CustomEvent('setCardFocus', {
-                  detail: cards.length - 1,
-                  section: prevSectionId === "blockbuster" ? 0 : 
-                          prevSectionId === "only" ? 1 :
-                          prevSectionId === "up" ? 2 : 3
-                }));
-              }
-            }
-          }, 150);
-        } else {
-      
-          setTimeout(() => {
-            const playButton = document.querySelector('.hero-btns .btn');
-            if (playButton) {
-              playButton.focus();
-              window.dispatchEvent(new CustomEvent('focusHeroButton', { detail: 0 }));
-            }
-          }, 150);
+  let prevSectionId;
+  if (idName === "top") prevSectionId = "up";        
+  else if (idName === "up") prevSectionId = "only";  
+  else if (idName === "only") prevSectionId = "blockbuster"; 
+  else prevSectionId = null;
+
+  if (prevSectionId) {
+    const prevSection = document.getElementById(prevSectionId);
+    if (prevSection) {
+
+      prevSection.classList.add('nav-highlight');
+      const sectionRect = prevSection.getBoundingClientRect();
+      const scrollPosition = window.scrollY + sectionRect.top - (window.innerHeight / 2) + (sectionRect.height / 2);
+        window.scrollTo({
+        top: scrollPosition,
+        behavior: 'smooth'
+      });
+
+   
+      setTimeout(() => {
+        const cards = prevSection.querySelectorAll('.card');
+        if (cards.length > 0) {
+          const lastCardIndex = Math.max(0, cards.length - 20); 
+          const lastCard = cards[lastCardIndex];
+          if (lastCard) {
+            lastCard.focus();
+            window.dispatchEvent(new CustomEvent('setCardFocus', {
+              detail: lastCardIndex,
+              section: prevSectionId === "blockbuster" ? 0 : 
+                      prevSectionId === "only" ? 1 :
+                      prevSectionId === "up" ? 2 : 3
+            }));
+          }
         }
-        break;
+      }, 300); 
+    }
+  } else {
 
+    setTimeout(() => {
+      const playButton = document.querySelector('.hero-btns .btn');
+      if (playButton) {
+        playButton.focus();
+        window.dispatchEvent(new CustomEvent('focusHeroButton', { detail: 0 }));
+      }
+    }, 150);
+  }
+  break;
 
-
-
-
-        
-      
+ 
       case KEY_DOWN:
         e.preventDefault();
         if (idName === "top") {
@@ -253,43 +256,22 @@ export default function TitleCards({ title, category, idName , }) {
     }
   };
 
-  // const scrollToCard = (index) => {
-  //   if (cardsRef.current) {
-  //     const cardElements = cardsRef.current.querySelectorAll('.card');
-  //     if (cardElements[index]) {
-  //       cardElements[index].scrollIntoView({
-  //         behavior: 'smooth',
-  //         block: 'nearest',
-  //         inline: 'center'
-  //       });
-  //     }
-  //   }
-  // };
+
   const scrollToCard = (index) => {
-    if (!cardsRef.current) return;
-  
-    const container = cardsRef.current;
-    const cards = container.querySelectorAll('.card');
-    if (!cards[index]) return;
-  
-    // Force synchronous layout calculation
-    container.style.overflow = 'hidden';
-    container.offsetHeight; // Trigger reflow
-    container.style.overflow = '';
-  
-    const containerWidth = container.offsetWidth;
-    const card = cards[index];
-    const cardWidth = card.offsetWidth;
-    const cardLeft = card.offsetLeft;
-    
-    // Calculate scroll position to center the card
-    const scrollTo = cardLeft - (containerWidth / 2) + (cardWidth / 2);
-  
-    container.scrollTo({
-      left: scrollTo,
-      behavior: 'smooth'
-    });
+    if (cardsRef.current) {
+      const cardElements = cardsRef.current.querySelectorAll('.card');
+      if (cardElements[index]) {
+        cardElements[index].scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }
+    }
   };
+  
+
+
 
   useEffect(() => {
     const cards = cardsRef.current;
@@ -360,7 +342,7 @@ export default function TitleCards({ title, category, idName , }) {
           return (
              <div 
              className={`card ${isFocused ? 'focused' : ''}`}
-             key={card.id}
+               key={card.id}
              id={idName}
              tabIndex="0"
              onMouseEnter={() => handleMouseEnter(card.id)}

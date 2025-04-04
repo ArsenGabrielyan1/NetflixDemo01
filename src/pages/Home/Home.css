@@ -5,10 +5,7 @@
     width: 100%;
     mask-image: linear-gradient(to right,transparent,black 75%);
  }
-
-
- 
- .hero-capiton{
+  .hero-capiton{
     position: absolute;
     width: 100%;
     padding-left: 6%;
@@ -149,7 +146,7 @@
     background: #6d6d6eb3 !important;
   }
   
-  /* When cards are focused, hide button focus */
+
   .more-cards:focus-within ~ .hero .hero-btns .btn.focused {
     outline: none !important;
     transform: none !important;

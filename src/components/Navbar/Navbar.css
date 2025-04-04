@@ -183,12 +183,12 @@
     }
   }
 
-  /* Add these styles to your existing Navbar.css */
+
    .navbar:not(:focus-within) .focused {
     border: none !important;
     background-color: transparent !important;
     }
-/* Search box when active */
+
 .box.active input {
   width: 300px !important;
   background: #3b3640;
@@ -199,7 +199,7 @@
   display: block;
 }
 
-/* Dropdown visibility */
+
 .navbar-profile .dropdown {
   display: none;
   position: absolute;
@@ -216,35 +216,30 @@
   display: block;
 }
 
-/* Focus styles */
 .navbar-left img.focused,
 .navbar-left li.focused,
 .box.focused,
 .icons.focused,
 .navbar-profile.focused {
-
   background-color: rgba(135, 131, 131, 0.3);
   border-radius: 4px;
   outline: none !important;
   border: 1px solid #fff;
-
-  
 }
 
-/* Search box transition */
-.box input {
+ .box input {
   transition:  0.3s ease;
-}
+ }
 
-.navbar-left img.focused {
+ .navbar-left img.focused {
   border: 2px solid white !important;
   background-color: rgba(255, 255, 255, 0.3) !important;
   border-radius: 4px !important;
-}
+ }
 
-.navbar:focus-within .navbar-right .focused {
-border: 1px solid #fff;
-background-color: transparent !important;
-outline: none !important;
+ .navbar:focus-within .navbar-right .focused {
+  border: 1px solid #fff;
+  background-color: transparent !important;
+  outline: none !important;
+  }
 
-}
