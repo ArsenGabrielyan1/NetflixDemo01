@@ -18,6 +18,7 @@
   width: 40px;
   height: 40px;
   cursor: pointer;
+  background: transparent;
 }
 
 .player-info {
@@ -54,7 +55,7 @@
 }
 
 .custom-controls button {
-  background: none;
+  background: transparent;
   border: none;
   cursor: pointer;
   background-color:transparent;

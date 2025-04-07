@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
-import back from '../../assets/backk.png';
+import back22 from '../../assets/back23.png'
 import './Trailer.css'
 
 export default function Trailer() {
@@ -30,7 +30,7 @@ export default function Trailer() {
 
   return (
     <div className="trailer">
- <img src={back} alt="Back" onClick={() => navigate(-1)} className="back-btn" />
+ <img src={back22} alt="Back" onClick={() => navigate(-1)} className="back-btn" />
     {videoKey ? (
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${videoKey}`}

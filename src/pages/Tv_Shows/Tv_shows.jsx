@@ -1,22 +1,3 @@
-// import './Tv_shows.css'
-// import Navbar from '../../components/Navbar/Navbar'
-// import React from 'react'
-// import TitleCards from '../../components/TitleCards/TitleCards'
-// import Footer from '../../components/Footer/Footer'
-//  export default function Tv_Shows() {
-    
-//     return (
-//     <div className='Tv_Shows'>
-//         <Navbar/>
-//      <div className="block">
-//        <TitleCards title={'Blockbuster Movies'} category={"top_rated"} idName={""}/>
-//      </div>
-//     <Footer/>
-//  </div>
-//   )
-// }
-
-
 import './Tv_shows.css'
 import React, { useEffect, useRef } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
@@ -135,7 +116,7 @@ export default function Tv_Shows() {
 
     return (
         <div className='Tv_Shows'>
-            <Navbar ref={navbarRef} />
+            <Navbar ref={navbarRef}  className='nav-shows'/>
             <div className="block">
                 <TitleCards 
                     ref={titleCardsRef}

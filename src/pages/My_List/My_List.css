@@ -1,52 +1,51 @@
-  .my-list {
-    padding: 21px;
-    background-color: #000;
-    min-height: 100vh;
+    .my-list {
+      padding: 30px;
+      background-color: #000;
+       background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../../assets/bgg.jpg'); 
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 100vh;
   }
+  
   
   .my-list-title {
     color: #fff;
-    font-size: 28px;
-    margin-top: 100px;
-    margin-left: 55px;  
-    margin-bottom: 30px;
-}
+    font-size: 30px;
+    text-align: center;
+    margin-top: 30px;
  
- .navbar {
-    top: 0;
-    left: 0;
- }
-
-  .grid-container {
+  }
+ 
+   .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); 
     grid-template-columns: auto auto auto auto;
     justify-content: space-around; 
-    } 
+  } 
   
    .grid-item {
     position: relative;
     border-radius: 10px;
     overflow: hidden;
     transition: transform 0.3s ease-in-out;
+    margin-top: 20px;
+    }
   
-  }
-  
-   .grid-item:hover {
+  .grid-item:hover {
     transform: scale(1.04);
-   }
+  }
   
   .grid-item img {
-  width: 100%;
-  max-width: 333px;
-  height: auto;
-  display: block;
-  border-radius: 10px;
-   
-  }
+   width: 100%;
+   max-width: 333px;
+   height: auto;
+   display: block;
+   border-radius: 10px;
+   }
   
   .grid-item p {
-    color: white;
+    color: #fff;
     font-size: 16px;
     text-align: center;
     margin-top: 5px;
@@ -58,11 +57,26 @@
     display: block;
     padding: 10px;
   }
+
+
+  .remove-btn:hover {
+    background-color: red !important;
+  }
   
-  .grid-item a:hover {
-    color: #ff5252; 
-  }   
- 
+  
+  .back-btn {
+    position: absolute;
+    cursor: pointer; 
+    filter: invert(1);
+    transition: transform 0.2s;
+    background: transparent;
+  }
+  
+  .back-btn:hover {
+    transform: scale(1.2);
+  }
+  
+  
   @media screen and (max-width: 768px) {
    .grid-container {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -75,17 +89,5 @@
    }
  }
 
- .grid-item {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
 
-.grid-item.focused {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-  outline: 3px solid white;
-  z-index: 10;
-}
 
-.grid-container {
-  scroll-behavior: smooth;
-}

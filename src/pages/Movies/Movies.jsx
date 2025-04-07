@@ -8,9 +8,8 @@ export default function Movies() {
     const navbarRef = useRef(null)
     const footerRef = useRef(null)
 
-    // Tizen TV remote key handler
+    
     const handleKeyDown = (e) => {
-        // Tizen TV remote key codes
         const KEY_LEFT = 37
         const KEY_UP = 38
         const KEY_RIGHT = 39
@@ -22,16 +21,16 @@ export default function Movies() {
         switch(e.keyCode) {
             case KEY_UP:
                 e.preventDefault()
-                // Navigation from TitleCards to Navbar
+           
                 if (document.activeElement.classList.contains('card')) {
                     const navbarProfile = document.querySelector('.navbar-profile')
                     if (navbarProfile) {
                         navbarProfile.focus()
                     }
                 }
-                // Navigation from Footer to TitleCards
+      
                 else if (document.activeElement.closest('.footer')) {
-                    const lastCard = document.querySelector('.card:last-child')
+                    const lastCard = document.querySelector('.card')
                     if (lastCard) {
                         lastCard.focus()
                         window.dispatchEvent(new CustomEvent('setCardFocus', {
@@ -43,7 +42,7 @@ export default function Movies() {
 
             case KEY_DOWN:
                 e.preventDefault()
-                // Navigation from Navbar to TitleCards
+
                 if (document.activeElement.closest('.navbar')) {
                     const firstCard = document.querySelector('.card')
                     if (firstCard) {
@@ -53,7 +52,7 @@ export default function Movies() {
                         }))
                     }
                 }
-                // Navigation from TitleCards to Footer
+    
                 else if (document.activeElement.classList.contains('card')) {
                     const firstFooterItem = document.querySelector('.footer-icons a')
                     if (firstFooterItem) {
@@ -76,7 +75,7 @@ export default function Movies() {
                 break
 
             case KEY_PLAY_PAUSE:
-                // Handle play/pause functionality if needed
+ 
                 break
 
             default:
@@ -85,10 +84,10 @@ export default function Movies() {
     }
 
     useEffect(() => {
-        // Add event listeners
+
         window.addEventListener('keydown', handleKeyDown)
 
-        // Set initial focus to first card after slight delay
+
         const focusTimer = setTimeout(() => {
             const firstCard = document.querySelector('.card')
             if (firstCard) {
@@ -99,7 +98,7 @@ export default function Movies() {
             }
         }, 300)
 
-        // Cleanup
+
         return () => {
             window.removeEventListener('keydown', handleKeyDown)
             clearTimeout(focusTimer)

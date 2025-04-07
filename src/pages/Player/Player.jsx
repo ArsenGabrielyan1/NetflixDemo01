@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ReactPlayer from 'react-player';
-// import screenfull from 'screenfull';
 import './Player.css';
-import back from '../../assets/backk.png';
+// import back from '../../assets/backk.png';
+import back22 from '../../assets/back23.png'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import fake from '../../assets/fake.mp4';
@@ -10,8 +10,7 @@ import play_vd from '../../assets/play-vd.png';
 import pause_vd from '../../assets/pause-vd.png';
 import mute from '../../assets/mute.png';
 import unmute from '../../assets/unmute.png';
-// import fullscreen from '../../assets/fullscreen.png';
-// import miniscreen from '../../assets/miniscreen.png';
+
 
 export default function Player() {
   const { id } = useParams();
@@ -142,7 +141,8 @@ export default function Player() {
 
   return (
     <div className="player" onMouseMove={handleMouseMove}>
-      <img src={back} alt="Back" onClick={() => navigate(-1)} className="back-btn" />
+      <img src={back22} alt="Back" onClick={() => navigate(-1)} className="back-btn" />
+      
       <div className="player-info">
         <p>{apiData.published_at ? apiData.published_at.slice(0, 10) : ''}</p>
         <p>{apiData.name}</p>
@@ -160,7 +160,7 @@ export default function Player() {
             muted={muted}
             onProgress={handleProgress}
             onReady={() => console.log('Player is ready')} 
-            width="93%"
+            width="95%"
             height="86%"
           />
          
@@ -187,14 +187,11 @@ export default function Player() {
                 type="range"
                 min={0}
                 max={1}
-                step={0.01}
+                step={0.00}
                 value={volume}
                 onChange={handleVolumeChange}
                 style={{ accentColor: "white" }}
               />
-              {/* <button onClick={handleFullScreen} >
-                {isFullScreen ? <img src={miniscreen} alt="MiniScreen"/> : <img src={fullscreen} alt="FullScreen"/>}
-              </button> */}
             </div>
           )}
         </div>

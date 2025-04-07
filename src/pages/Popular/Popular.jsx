@@ -47,11 +47,11 @@ export default function Popular() {
             navbarItems[navbarItems.length - 1].focus();
           }
         }
-        // Move focus from Footer to TitleCards
-        else if (document.activeElement.closest('.footer')) {
+     
+       else if (document.activeElement.closest('.footer')) {
           const cards = document.querySelectorAll('.card');
           if (cards.length > 0) {
-            cards[cards.length - 20].focus();
+            cards[cards.length -20].focus();
             window.dispatchEvent(new CustomEvent('setCardFocus', { 
               detail: cards.length - 1 
             }));
