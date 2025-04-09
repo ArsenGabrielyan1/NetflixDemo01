@@ -12,7 +12,7 @@ export default function MyList() {
   const navigate = useNavigate();
   const gridRef = useRef(null);
 
-  // Tizen key codes
+
   const TVKeys = {
     ENTER: 13,
     BACK: 10009,
@@ -20,7 +20,8 @@ export default function MyList() {
     UP: 38,
     DOWN: 40,
     LEFT: 37,
-    RIGHT: 39
+    RIGHT: 39,
+    PLAY:10252,
   };
 
   useEffect(() => {
@@ -34,8 +35,7 @@ export default function MyList() {
     
     loadLikedMovies();
     
-    // Initialize Tizen TV key handling
-    if (window.tizen && window.tizen.tvinputdevice) {
+     if (window.tizen && window.tizen.tvinputdevice) {
       try {
         tizen.tvinputdevice.registerKey("MediaPlay");
         tizen.tvinputdevice.registerKey("MediaPause");
@@ -53,33 +53,28 @@ export default function MyList() {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (isLoading || likedMovies.length === 0) return;
-
-      // Handle both keyboard and TV remote keys
+      
       const keyCode = e.keyCode || e.which;
       
       switch (keyCode) {
         case TVKeys.UP:
           e.preventDefault();
           if (isBackButtonFocused) {
-            // Already on back button, do nothing
+
           } else if (focusedIndex < 0) {
-            // Move to back button from grid
             setIsBackButtonFocused(true);
             setFocusedIndex(-1);
           } else if (focusedIndex >= 4) {
-            // Move up in grid (assuming 4 columns)
-            setFocusedIndex(focusedIndex - 4);
+           setFocusedIndex(focusedIndex - 4);
           }
           break;
           
         case TVKeys.DOWN:
           e.preventDefault();
           if (isBackButtonFocused) {
-            // Move from back button to first item in grid
             setIsBackButtonFocused(false);
             setFocusedIndex(0);
           } else if (focusedIndex + 4 < likedMovies.length) {
-            // Move down in grid
             setFocusedIndex(focusedIndex + 4);
           }
           break;
@@ -87,7 +82,7 @@ export default function MyList() {
         case TVKeys.LEFT:
           e.preventDefault();
           if (isBackButtonFocused) {
-            // Do nothing on back button
+   
           } else if (focusedIndex > 0) {
             setFocusedIndex(focusedIndex - 1);
           }
@@ -96,13 +91,22 @@ export default function MyList() {
         case TVKeys.RIGHT:
           e.preventDefault();
           if (isBackButtonFocused) {
-            // Do nothing on back button
+          
           } else if (focusedIndex < likedMovies.length - 1) {
             setFocusedIndex(focusedIndex + 1);
           }
           break;
-          
-        case TVKeys.ENTER:
+                   
+        case TVKeys.ENTER: 
+        e.preventDefault();
+        if (focusedIndex >= 0 && focusedIndex < likedMovies.length) {
+          removeFromLikedMovies(likedMovies[focusedIndex].id);
+        }
+        break;
+
+
+
+        case TVKeys.PLAY: // 415
           e.preventDefault();
           if (isBackButtonFocused) {
             handleBackClick();
@@ -110,11 +114,14 @@ export default function MyList() {
             navigate(`/player/${likedMovies[focusedIndex].id}`);
           }
           break;
-          
+
+
+
           case TVKeys.BACK: // 10009
           console.log("BACK key pressed"); 
           e.preventDefault();
            handleBackClick();
+           
       
           break;
           
@@ -124,8 +131,8 @@ export default function MyList() {
             removeFromLikedMovies(likedMovies[focusedIndex].id);
           }
           break;
-          
-        default:
+
+          default:
           break;
       }
     };
@@ -141,16 +148,13 @@ export default function MyList() {
     setLikedMovies(updatedLikedMovies);
     localStorage.setItem("likedMovies", JSON.stringify(updatedLikedMovies));
     
-    // Adjust focus after deletion
     if (focusedIndex >= updatedLikedMovies.length) {
       setFocusedIndex(Math.max(0, updatedLikedMovies.length - 1));
     }
   };
 
-
   const handleBackClick = () => {
-    console.log("Navigating back...");
-    navigate(-1); 
+      navigate(-1); 
   };
 
   const handleRemoveClick = (e, movieId) => {
@@ -166,15 +170,14 @@ export default function MyList() {
   alt="Back"
   onClick={handleBackClick}
   className="back-btn"
-  tabIndex={0} // Make it focusable
+  tabIndex={0} 
   onFocus={() => setIsBackButtonFocused(true)}
   onBlur={() => setIsBackButtonFocused(false)}
   style={{
     cursor: "pointer",
-    border: isBackButtonFocused ? "3px solid rgb(255, 255, 255)" : "none",
+    border: isBackButtonFocused ? "3px solid rgb(99, 94, 94)" : "none",
     padding: isBackButtonFocused ? "3px" : "0",
     borderRadius: isBackButtonFocused ? "50%" : "0",
-    boxShadow: isBackButtonFocused ? "0 0 10px rgb(117, 116, 116)" : "none",
     position: "fixed",
     top: "20px",
     left: "20px",
@@ -200,12 +203,9 @@ export default function MyList() {
               className="grid-item" 
               key={movie.id}
               style={{
-                border: focusedIndex === index ? '3px solid  rgb(219, 10, 10)' : 'none',
-                padding: focusedIndex === index ? '3px' : '0',
-                borderRadius: '10px',
-                transform: focusedIndex === index ? 'scale(1.05)' : 'none',
+                borderRadius: '2px',
                 transition: 'all 0.3s ease',
-                boxShadow: focusedIndex === index ? '0 0 15px  rgb(219, 10, 10)' : 'none',
+                boxShadow: focusedIndex === index ? '0px 2px 15px rgb(218, 209, 209)' : 'none',
                 position: 'relative'
               }}
             >

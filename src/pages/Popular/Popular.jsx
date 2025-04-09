@@ -1,21 +1,3 @@
-// import React from 'react'
-// import Navbar from '../../components/Navbar/Navbar'
-// import TitleCards from '../../components/TitleCards/TitleCards'
-// import Footer from '../../components/Footer/Footer'
-// export default function Popular() {
-//     return (
-//         <div className='Tv_Shows'>
-//         <Navbar/>
-       
-//      <div className="block">
-//            <TitleCards title={'Upcoming'} category={"upcoming"} idName={"up"}/>
-//      </div>
-//   <Footer/>
-// </div>
-//   )
-// } 
-
-
 import React, { useEffect, useRef } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import TitleCards from '../../components/TitleCards/TitleCards';
@@ -26,23 +8,20 @@ export default function Popular() {
   const navbarRef = useRef(null);
   const footerRef = useRef(null);
 
-  // Tizen TV remote key handler
-  const handleKeyDown = (e) => {
-    // Tizen TV remote specific key codes
-    const KEY_LEFT = 37;
+   const handleKeyDown = (e) => {
+    
     const KEY_UP = 38;
-    const KEY_RIGHT = 39;
     const KEY_DOWN = 40;
     const KEY_ENTER = 13;
     const KEY_RETURN = 10009;
     const KEY_PLAY_PAUSE = 10252;
 
+
     switch(e.keyCode || e.which) {
       case KEY_UP:
         e.preventDefault();
-        // Move focus from TitleCards to Navbar
         if (document.activeElement.classList.contains('card')) {
-          const navbarItems = document.querySelectorAll('.navbar-left li[tabindex="0"]');
+          const navbarItems = document.querySelectorAll('.navbar-left img');
           if (navbarItems.length > 0) {
             navbarItems[navbarItems.length - 1].focus();
           }
@@ -61,7 +40,7 @@ export default function Popular() {
 
       case KEY_DOWN:
         e.preventDefault();
-        // Move focus from Navbar to TitleCards
+
         if (document.activeElement.closest('.navbar')) {
           const firstCard = document.querySelector('.card');
           if (firstCard) {
@@ -71,7 +50,7 @@ export default function Popular() {
             }));
           }
         }
-        // Move focus from TitleCards to Footer
+
         else if (document.activeElement.classList.contains('card')) {
           const firstFooterItem = document.querySelector('.footer-icons a');
           if (firstFooterItem) {
@@ -81,12 +60,6 @@ export default function Popular() {
             }));
           }
         }
-        break;
-
-      case KEY_LEFT:
-      case KEY_RIGHT:
-        // Handle left/right navigation within components
-        // The individual components (TitleCards, Navbar, Footer) will handle their own horizontal navigation
         break;
 
       case KEY_ENTER:
@@ -111,10 +84,7 @@ export default function Popular() {
   };
 
   useEffect(() => {
-    // Add event listener when component mounts
     window.addEventListener('keydown', handleKeyDown);
-
-    // Set initial focus to the first TitleCard
     const firstCard = document.querySelector('.card');
     if (firstCard) {
       firstCard.focus();
@@ -123,7 +93,6 @@ export default function Popular() {
       }));
     }
 
-    // Clean up event listener when component unmounts
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
@@ -131,9 +100,8 @@ export default function Popular() {
 
   return (
     <div className='Tv_Shows' ref={titleCardsRef}>
-      <Navbar ref={navbarRef} />
-      
-      <div className="block">
+      <Navbar ref={navbarRef}/>
+     <div className="block">
         <TitleCards 
           title={'Upcoming'} 
           category={"upcoming"} 
@@ -141,8 +109,7 @@ export default function Popular() {
           ref={titleCardsRef}
         />
       </div>
-      
       <Footer ref={footerRef} />
-    </div>
+  </div>
   );
 }

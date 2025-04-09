@@ -1,11 +1,12 @@
     .my-list {
       padding: 30px;
       background-color: #000;
-       background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../../assets/bgg.jpg'); 
-      background-size: cover;
+       background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)), url('../../assets/bgg.jpg');   
+       background-size: cover;
       background-position: center;
       background-attachment: fixed;
       min-height: 100vh;
+      
   }
   
   

@@ -1,19 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ReactPlayer from 'react-player';
 import './Player.css';
-// import back from '../../assets/backk.png';
-import back22 from '../../assets/back23.png'
+import back22 from '../../assets/back23.png';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Link } from "react-router-dom";
 import fake from '../../assets/fake.mp4';
 import play_vd from '../../assets/play-vd.png';
 import pause_vd from '../../assets/pause-vd.png';
 import mute from '../../assets/mute.png';
 import unmute from '../../assets/unmute.png';
 
-
 export default function Player() {
-  const { id } = useParams();
+  const {id} = useParams();
   const navigate = useNavigate();
   const [apiData, setApiData] = useState({
     name: "",
@@ -30,13 +27,137 @@ export default function Player() {
   const [volume, setVolume] = useState(0.5);
   const [muted, setMuted] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const [showControls, setShowControls] = useState(false);
+  const [showControls, setShowControls] = useState(true);
   const playerRef = useRef(null);
   const controlsTimeoutRef = useRef(null);
+  const controlsRef = useRef(null);
+
+  const KEY_CODES = {
+    ENTER: 13,
+    LEFT: 37,
+    RIGHT: 39,
+    UP: 38,
+    DOWN: 40,
+    BACK: 10009,
+    VOLUME_UP: 447,
+    VOLUME_DOWN: 448,
+    PLAY_PAUSE: 10252,
+  };
+
+  const getAllFocusableElements = () => {
+    const controls = controlsRef.current;
+    if (!controls) return [];
+    
+    const focusableElements = Array.from(controls.querySelectorAll('button, input[type="range"]'));
+    const trailerButton = document.querySelector('.watch-trailer-btn');
+    const backButton = document.querySelector('.back-btn');
+    const likeButtons = document.querySelectorAll('.like-btn, .dislike-btn');
+    
+    if (backButton) focusableElements.unshift(backButton);
+    if (trailerButton) focusableElements.push(trailerButton);
+    likeButtons.forEach(btn => focusableElements.push(btn));
+    
+    return focusableElements.filter(el => el.tabIndex >= 0);
+  };
+  const handleKeyDown = (e) => {
+    const focusableElements = getAllFocusableElements();
+    if (focusableElements.length === 0) return;
+  
+    let currentIndex = focusableElements.indexOf(document.activeElement);
+    const activeElement = document.activeElement;
+  
+    switch (e.keyCode) {
+      case KEY_CODES.ENTER:
+        if (activeElement.tagName === 'BUTTON') {
+          activeElement.click();
+        }
+        break;
+        
+      case KEY_CODES.LEFT:
+        e.preventDefault();
+        if (activeElement.classList.contains('progress-slider')) {
+          const newValue = Math.max(0, progress - 0.05);
+          setProgress(newValue);
+          playerRef.current.seekTo(newValue, 'fraction');
+        } else if (activeElement.classList.contains('volume-slider')) {
+          setVolume(prev => Math.max(0, prev - 0.05));
+        } else if (currentIndex > 0) {
+          focusableElements[currentIndex - 1].focus();
+        }
+        break;
+        
+      case KEY_CODES.RIGHT:
+        e.preventDefault();
+        if (activeElement.classList.contains('progress-slider')) {
+          const newValue = Math.min(1, progress + 0.05);
+          setProgress(newValue);
+          playerRef.current.seekTo(newValue, 'fraction');
+        } else if (activeElement.classList.contains('volume-slider')) {
+          setVolume(prev => Math.min(1, prev + 0.05));
+        } else if (currentIndex < focusableElements.length - 1) {
+          focusableElements[currentIndex + 1].focus();
+        }
+        break;
+        
+      case KEY_CODES.UP:
+        e.preventDefault();
+        if (currentIndex > 0) {
+          focusableElements[currentIndex - 1].focus();
+        } else {
+          focusableElements[focusableElements.length - 1].focus();
+        }
+        break;
+        
+      case KEY_CODES.DOWN:
+        e.preventDefault();
+        if (currentIndex < focusableElements.length - 1) {
+          focusableElements[currentIndex + 1].focus();
+        } else {
+          focusableElements[0].focus();
+        }
+        break;
+        
+      case KEY_CODES.BACK:
+        navigate(-1);
+        break;
+        
+      case KEY_CODES.PLAY_PAUSE:
+        handlePlayPause();
+        break;
+        
+      case KEY_CODES.VOLUME_UP:
+        setVolume(prev => Math.min(1, prev + 0.1));
+        break;
+        
+      case KEY_CODES.VOLUME_DOWN:
+        setVolume(prev => Math.max(0, prev - 0.1));
+        break;
+        
+      // Like/Dislike functionality only when buttons are focused
+      case KEY_CODES.ENTER:
+        if (activeElement.classList.contains('like-btn')) {
+          handleLike();
+        } else if (activeElement.classList.contains('dislike-btn')) {
+          handleDislike();
+        }
+        break;
+        
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [progress, volume]);
 
   const handlePlayPause = () => {
     setPlaying(!playing);
+    setShowControls(true);
+    // resetControlsTimeout();
   };
 
   const handleVolumeChange = (e) => {
@@ -45,6 +166,8 @@ export default function Player() {
 
   const handleMute = () => {
     setMuted(!muted);
+    setShowControls(true);
+    // resetControlsTimeout();
   };
 
   const handleProgress = (state) => {
@@ -57,23 +180,22 @@ export default function Player() {
       playerRef.current.seekTo(seekTo, 'fraction');
       setProgress(seekTo);
     }
+    setShowControls(true);
+    // resetControlsTimeout();
   };
 
-  const handleFullScreen = () => {
-    if (screenfull.isEnabled && playerRef.current?.wrapper) {
-      screenfull.toggle(playerRef.current.wrapper);
-      setIsFullScreen(!isFullScreen);
-    }
-  };
+  // const resetControlsTimeout = () => {
+  //   if (controlsTimeoutRef.current) {
+  //     clearTimeout(controlsTimeoutRef.current);
+  //   }
+  //   controlsTimeoutRef.current = setTimeout(() => {
+  //     setShowControls(false);
+  //   }, 3000);
+  // };
 
   const handleMouseMove = () => {
     setShowControls(true);
-    if (controlsTimeoutRef.current) {
-      clearTimeout(controlsTimeoutRef.current);
-    }
-    controlsTimeoutRef.current = setTimeout(() => {
-      setShowControls(false);
-    }, 1400);
+    // resetControlsTimeout();
   };
 
   useEffect(() => {
@@ -99,8 +221,13 @@ export default function Player() {
         throw new Error('Network was error');
       }
       const resp = await req.json();
+      setApiData({
+        name: resp.results[0]?.name || "",
+        key: resp.results[0]?.key || "",
+        published_at: resp.results[0]?.published_at || "",
+        typeof: resp.results[0]?.type || ""
+      });
       setIsLoading(false);
-      console.log(resp);
     } catch (error) {
       setIsLoading(false);
       console.log(error);
@@ -139,9 +266,19 @@ export default function Player() {
     }
   };
 
+  const handleBackClick = () => {
+    navigate(-1); 
+  };
+
   return (
     <div className="player" onMouseMove={handleMouseMove}>
-      <img src={back22} alt="Back" onClick={() => navigate(-1)} className="back-btn" />
+      <img 
+        src={back22} 
+        alt="Back" 
+        onClick={handleBackClick} 
+        className="back-btn"
+        tabIndex="0"
+      />
       
       <div className="player-info">
         <p>{apiData.published_at ? apiData.published_at.slice(0, 10) : ''}</p>
@@ -151,7 +288,6 @@ export default function Player() {
 
       {isLoading ? <p style={{ color: 'white' }}>Loading...</p> : (
         <div className="video-wrapper">
-          
           <ReactPlayer
             ref={playerRef}
             url={fake}
@@ -159,14 +295,18 @@ export default function Player() {
             volume={volume}
             muted={muted}
             onProgress={handleProgress}
-            onReady={() => console.log('Player is ready')} 
-            width="95%"
-            height="86%"
+            onReady={() => console.log('Player is ready')}
+            width="100%"
+            height="100%"
           />
          
           {showControls && (
-            <div className="custom-controls">
-              <button onClick={handlePlayPause}>
+            <div className="custom-controls" ref={controlsRef}>
+              <button 
+                onClick={handlePlayPause}
+                tabIndex="0"
+                className="play-pause-btn"
+              >
                 {playing ? <img src={pause_vd} alt="Pause"/> : <img src={play_vd} alt="Play"/>}
               </button>
          
@@ -176,38 +316,40 @@ export default function Player() {
                 max={1} 
                 step={0.01}
                 value={progress}
-                onChange={handleSeek} 
-                onMouseUp={() => setPlaying(true)} 
+                onChange={handleSeek}
                 style={{ accentColor: "white", cursor: "pointer", width: "50%" }}
+                tabIndex="0"
+                className="progress-slider"
               />
-              <button onClick={handleMute}>
-                {muted ? <img src={unmute} alt="Unmute" /> : <img src={mute} alt="Mute" />}
+              <button 
+                onClick={handleMute}
+                tabIndex="0"
+                className="mute-btn"
+              >
+                {muted ? <img src={mute} alt="Unmute" /> : <img src={unmute} alt="Mute" />}
               </button>
               <input
                 type="range"
                 min={0}
                 max={1}
-                step={0.00}
+                step={0.01}
                 value={volume}
                 onChange={handleVolumeChange}
                 style={{ accentColor: "white" }}
+                tabIndex="0"
+                className="volume-slider"
               />
             </div>
           )}
         </div>
       )}
-
-      <div className="like-dislike-buttons">
-        <button className={`like-btn ${liked ? 'active' : ''}`} onClick={handleLike}>
-          👍 {likes}
-        </button>
-        <button className={`dislike-btn ${disliked ? 'active' : ''}`} onClick={handleDislike}>
-          👎 {dislikes}
-        </button>
-      </div>
-      <Link to={`/trailer/${id}`}>
-        <button className='watch-trailer-btn'>Watch Trailer</button>
-      </Link>
+      <button 
+        className='watch-trailer-btn' 
+        onClick={() => navigate(`/trailer/${id}`)}
+        tabIndex="0"
+      >
+        Watch Trailer
+      </button>
     </div>
   );
 }

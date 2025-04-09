@@ -9,9 +9,9 @@ export default function Tv_Shows() {
     const navbarRef = useRef(null)
     const footerRef = useRef(null)
 
-    // Tizen TV remote key handler
+
     const handleKeyDown = (e) => {
-        // Tizen TV remote key codes
+       
         const KEY_LEFT = 37
         const KEY_UP = 38
         const KEY_RIGHT = 39
@@ -23,14 +23,14 @@ export default function Tv_Shows() {
         switch(e.keyCode) {
             case KEY_UP:
                 e.preventDefault()
-                // Move focus from TitleCards to Navbar
+              
                 if (document.activeElement.classList.contains('card')) {
-                    const navbarItems = document.querySelectorAll('.navbar-left li[tabindex="0"]')
+                    const navbarItems = document.querySelectorAll('.navbar-left img')
                     if (navbarItems.length > 0) {
                         navbarItems[navbarItems.length - 1].focus()
                     }
                 }
-                // Move focus from Footer to TitleCards
+     
                 else if (document.activeElement.closest('.footer')) {
                     const cards = document.querySelectorAll('.card')
                     if (cards.length > 0) {
@@ -41,6 +41,7 @@ export default function Tv_Shows() {
                     }
                 }
                 break
+               // '.navbar-left li[tabindex="0"]'
 
             case KEY_DOWN:
                 e.preventDefault()

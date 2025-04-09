@@ -23,7 +23,7 @@ export default function Movies() {
                 e.preventDefault()
            
                 if (document.activeElement.classList.contains('card')) {
-                    const navbarProfile = document.querySelector('.navbar-profile')
+                    const navbarProfile = document.querySelector('.navbar-left img')
                     if (navbarProfile) {
                         navbarProfile.focus()
                     }

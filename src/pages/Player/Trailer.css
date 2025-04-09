@@ -1,4 +1,4 @@
- .trailer {
+ /* .trailer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,4 +26,72 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.2);
-} 
+}  */
+
+.trailer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #000;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  /* TV-optimized focus styles */
+  outline: none;
+  border: 2px solid transparent;
+}
+
+.back-btn:hover, 
+.back-btn:focus {
+  transform: scale(1.1);
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* Enhanced focus styles for TV navigation */
+.back-btn:focus {
+  transform: scale(1.1);
+  border: 2px solid #fff;
+  box-shadow: 0 0 15px #fff, 0 0 10px rgba(255, 255, 255, 0.8) inset;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 5px #fff; }
+  50% { box-shadow: 0 0 20px #fff; }
+  100% { box-shadow: 0 0 5px #fff; }
+}
+
+.react-player {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.2);
+  /* Ensure player is properly sized for TV */
+  max-width: 90%;
+  max-height: 80vh;
+}
+
+/* Fallback message styling */
+.trailer p {
+  font-size: 24px;
+  margin-top: 20px;
+  color: #aaa;
+}
+
+/* Focus indicator for TV navigation */
+:focus {
+  outline: none;
+  box-shadow: 0 0 10px 3px rgba(78, 78, 79, 0.9);
+}

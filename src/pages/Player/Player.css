@@ -29,8 +29,8 @@
 
 .video-wrapper {
   position: relative;
-  width: 90%;
-  max-width: 800px;
+  width: 100%;
+  max-width: 900px;
   aspect-ratio: 16/9;
   background: black;
   display: flex;
@@ -42,8 +42,9 @@
 
 .custom-controls {
   position: absolute;
-  bottom: 25px;
+  bottom: 15px;
   left: 50%;
+
   transform: translateX(-50%);
   width: 100%;
   display: flex;
@@ -52,6 +53,7 @@
   background:transparent;
   padding: 10px;
   border-radius: 10px;
+  
 }
 
 .custom-controls button {
@@ -72,6 +74,7 @@
   width: 100px;
   margin: 0 10px;
   cursor: pointer;
+  
 }
 
 .like-dislike-buttons {

@@ -76,9 +76,9 @@ export default function TitleCards({ title, category, idName , }) {
     const KEY_UP = 38;
     const KEY_RIGHT = 39;
     const KEY_DOWN = 40;
-    const KEY_ENTER = 13;
+    const KEY_ENTER = 10252;
     const KEY_RETURN = 10009;
-    const KEY_PLAY_PAUSE = 10252;
+    const KEY_PLAY_PAUSE = 13;
     
     if (!apiData.length) return;
   
@@ -102,13 +102,12 @@ export default function TitleCards({ title, category, idName , }) {
 
       prevSection.classList.add('nav-highlight');
       const sectionRect = prevSection.getBoundingClientRect();
-      const scrollPosition = window.scrollY + sectionRect.top - (window.innerHeight / 2) + (sectionRect.height / 2);
+      const scrollPosition = window.scrollY + sectionRect.top - (window.innerHeight / 1.8) + (sectionRect.height /1.8);
         window.scrollTo({
         top: scrollPosition,
         behavior: 'smooth'
       });
 
-   
       setTimeout(() => {
         const cards = prevSection.querySelectorAll('.card');
         if (cards.length > 0) {
@@ -339,7 +338,7 @@ export default function TitleCards({ title, category, idName , }) {
           return (
              <div 
              className={`card ${isFocused ? 'focused' : ''}`}
-               key={card.id}
+              key={card.id}
              id={idName}
              tabIndex="0"
              onMouseEnter={() => handleMouseEnter(card.id)}

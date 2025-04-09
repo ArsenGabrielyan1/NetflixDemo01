@@ -99,51 +99,34 @@
 
  .card {
   transition: all 0.3s ease;
-  /* outline: none; */
+  border: 0.1rem solid transparent;
+  outline: none;
   }
 
   .card:focus {
-  outline-width: medium #ffffff;
-  outline: auto;
-  border: transparent;
+  border: 0.1rem solid #ffff;
   border-radius: 4px;
-   z-index: 30;
-  }
+  z-index: 30;
+  
+}
 
  .card.focused .btn-show-movie,
  .card:focus .btn-show-movie {
    display: inline-block;
   }
 
- .card-list {
+ /* .card-list {
    scroll-behavior: smooth;
- }  
+ }   */
 
-
-.card-list .card {
+ .card-list .card {
   margin-right: 35px;
   scroll-snap-align:start;
+  }
 
-}
-
-.TitleCards.nav-highlight-leave {
-  transition: all 0.3s ease;
-  opacity: 0.7;
-}
-
-
-.TitleCards.nav-highlight {
-  border: none;
-  outline: none;
-  border-radius: 8px;
-  padding: 10px;
-  margin: -12px -10px; 
-  transition: all 0.3s ease;
-  opacity: 1 !important; 
-  z-index: 20;
-}
-
-.TitleCards.nav-highlight-leave {
-  transition: all 0.3s ease;
-   opacity: 0.7;
-}
+ .TitleCards.nav-highlight {
+   border: 0.1rem transparent #fff;
+   outline:none;
+   position: relative;
+   z-index: 20;
+  } 
